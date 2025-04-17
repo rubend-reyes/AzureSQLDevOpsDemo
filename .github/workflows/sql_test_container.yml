@@ -16,9 +16,9 @@ jobs:
         image: mcr.microsoft.com/mssql/server:2022-latest
         env:
           ACCEPT_EULA: 1
-          SA_PASSWORD: P@ssw0rd
+          SA_PASSWORD: Password1
         ports:
-          - 1433:1433
+          - 1434:1433
 
     steps:
       - name: 'Checkout GitHub Action'
@@ -45,13 +45,13 @@ jobs:
       - name: 'Create and setup database'
         uses: azure/sql-action@v2
         with:
-          connection-string: "Server=localhost;Initial Catalog=master;User ID=sa;Password=P@ssw0rd;Encrypt=False;TrustServerCertificate=False;"  # the local connection string
+          connection-string: "Server=localhost;Initial Catalog=master;User ID=sa;Password=Password1;Encrypt=False;TrustServerCertificate=False;"  # the local connection string
           path: './setups/setupDatabase.sql' # the sql script to create db and configure for clr
 
       - name: 'Deploy Projects'
         uses: azure/sql-action@v2
         with:
-          connection-string: "Server=localhost;Initial Catalog=testingDB;User ID=sa;Password=P@ssw0rd;Encrypt=False;TrustServerCertificate=False;"  # the local connection string
+          connection-string: "Server=localhost;Initial Catalog=testingDB;User ID=sa;Password=Password1;Encrypt=False;TrustServerCertificate=False;"  # the local connection string
           path: './TestsSQLServer/TestsSQLServer.sqlproj' # the SQLproj file
           action: 'Publish'
           arguments: '/p:IncludeCompositeObjects=True'
@@ -59,5 +59,5 @@ jobs:
       - name: 'Run tSQLt tests'
         uses: azure/sql-action@v2
         with:
-          connection-string: "Server=localhost;Initial Catalog=testingDB;User ID=sa;Password=P@ssw0rd;"  # the local connection string
+          connection-string: "Server=localhost;Initial Catalog=testingDB;User ID=sa;Password=Password1;"  # the local connection string
           path: './TestsSQLServer/myTests/demoExecAzureSQL.sql' # the tsqlt test command
